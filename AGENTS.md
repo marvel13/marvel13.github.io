@@ -2,7 +2,7 @@
 
 ## Overview
 
-Personal blog built with Hugo (hugo-bearblog theme). Posts are written in Obsidian and synced into the Hugo repo via a script before publishing. Deployed to GitHub Pages via GitHub Actions.
+Personal blog built with Hugo (hugo-bearblog theme). The Hugo `content/` directory is opened directly as an Obsidian vault — edits in Obsidian reflect instantly on the local Hugo server. Deployed to GitHub Pages via GitHub Actions.
 
 ## Key Paths
 
@@ -10,13 +10,9 @@ Personal blog built with Hugo (hugo-bearblog theme). Posts are written in Obsidi
 |---|---|
 | Hugo project root | `/Users/salwynmathew/Code/my-blog/` |
 | Hugo config | `/Users/salwynmathew/Code/my-blog/hugo.toml` |
-| Hugo content dir (committed) | `/Users/salwynmathew/Code/my-blog/content/` |
-| Blog posts (Hugo) | `/Users/salwynmathew/Code/my-blog/content/blog/` |
-| Obsidian vault root | `/Users/salwynmathew/Documents/Salwyn/` |
-| Obsidian blog source | `/Users/salwynmathew/Documents/Salwyn/blog/` |
-| Blog posts (Obsidian) | `/Users/salwynmathew/Documents/Salwyn/blog/blog/` |
-| Static assets (images etc.) | `/Users/salwynmathew/Code/my-blog/static/images/` |
-| Sync script | `/Users/salwynmathew/Code/my-blog/sync.sh` |
+| Obsidian vault / Hugo content dir | `/Users/salwynmathew/Code/my-blog/content/` |
+| Blog posts | `/Users/salwynmathew/Code/my-blog/content/blog/` |
+| Static assets (images) | `/Users/salwynmathew/Code/my-blog/static/images/` |
 | GitHub Actions workflow | `/Users/salwynmathew/Code/my-blog/.github/workflows/hugo.yml` |
 
 ## Hugo Configuration
@@ -24,33 +20,37 @@ Personal blog built with Hugo (hugo-bearblog theme). Posts are written in Obsidi
 - **Hugo version:** v0.160.1 (extended+withdeploy), installed via Homebrew
 - **Theme:** `hugo-bearblog`
 - **`baseURL`:** `https://marvel13.github.io/`
-- **`contentDir`:** `content` (relative — committed to the repo)
+- **`contentDir`:** `content` (relative to project root)
 - **`timeZone`:** `Asia/Kolkata` (IST) — prevents today-dated posts from being treated as future
 - **`ignoreFiles`:** `.obsidian`, `.trash`, `Templates`
-- **`hideMadeWithLine`:** `true` — footer attribution removed
+- **`hideMadeWithLine`:** `true`
 
 ## Deployment
 
 - **GitHub repo:** `https://github.com/marvel13/marvel13.github.io`
 - **Live site:** `https://marvel13.github.io/`
 - **Deploy method:** GitHub Actions — auto-deploys on every push to `master`
-- **Pages source:** set to GitHub Actions (not legacy branch mode)
-- Blog post URLs follow the pattern `https://marvel13.github.io/<slug>/`
+- **Pages source:** GitHub Actions (not legacy branch mode)
+- Blog post URLs: `https://marvel13.github.io/<slug>/`
 
 ## Publish Workflow
 
-1. Write post in Obsidian under `Documents/Salwyn/blog/blog/`
-2. Set `draft: false` in the frontmatter when ready to publish
-3. For images: copy to `static/images/` with no spaces in the filename, use standard Markdown syntax `![alt](/images/filename.png)` — Obsidian's `![[...]]` syntax does NOT work in Hugo
-4. Run sync script to copy content into the repo:
-   ```bash
-   cd /Users/salwynmathew/Code/my-blog && ./sync.sh
-   ```
-5. Commit and push:
+1. Write post in Obsidian (vault is `content/`) under `content/blog/`
+2. Set `draft: false` in frontmatter when ready to publish
+3. For images: paste into Obsidian — attachments are saved to `static/images/` (configured in Obsidian settings). Rename to remove spaces, then use standard Markdown: `![alt](/images/filename.png)`
+4. Commit and push:
    ```bash
    git add . && git commit -m "Add post: <title>" && git push
    ```
-6. GitHub Actions builds and deploys automatically (~1 min)
+5. GitHub Actions builds and deploys automatically (~1 min)
+
+## Local Preview
+
+```bash
+cd /Users/salwynmathew/Code/my-blog && hugo server -D
+```
+
+Edits in Obsidian reflect instantly — no sync step needed.
 
 ## Post Frontmatter Format
 
@@ -66,25 +66,10 @@ draft: false
 
 - `draft: true` = visible locally with `hugo server -D`, hidden in production
 - `draft: false` = published
-- Dates must be in your local timezone (IST) — Hugo is configured for `Asia/Kolkata`
-- Do NOT use spaces in filenames — use hyphens (e.g. `my-post.md`, `my-image.png`)
-
-## Common Commands
-
-```bash
-# Preview locally including drafts
-cd /Users/salwynmathew/Code/my-blog && hugo server -D
-
-# Sync Obsidian content into Hugo repo
-cd /Users/salwynmathew/Code/my-blog && ./sync.sh
-
-# Build site locally
-cd /Users/salwynmathew/Code/my-blog && hugo
-```
+- Dates in IST — Hugo is configured for `Asia/Kolkata`
 
 ## Known Quirks
 
-- **Spaces in filenames break Markdown image rendering** — always rename images before copying to `static/images/`
+- **Spaces in filenames break Markdown image rendering** — always rename images to use hyphens before using them
 - **Obsidian `![[image]]` syntax is not supported** — use `![alt](/images/filename.png)`
-- **Duplicate content dir bug** — `content/` inside the Hugo project takes precedence over `contentDir` in config. Do not create a `content/` dir if using an external `contentDir`, or vice versa.
-- **IST timezone** — without `timeZone = "Asia/Kolkata"` in hugo.toml, posts dated today are treated as future and excluded from builds
+- **IST timezone** — without `timeZone = "Asia/Kolkata"`, posts dated today are treated as future and excluded from builds
