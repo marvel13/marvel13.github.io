@@ -1,0 +1,18 @@
+{{ define "main" }}
+<content>
+  {{ .Content }}
+  <ul class="blog-posts">
+    {{ $pages := where .Site.RegularPages "Section" "blog" }}
+    {{ range $pages.ByDate.Reverse }}
+    <li>
+      <div class="post-item">
+        <a class="post-link" href="{{ .Permalink }}">{{ .Title }} <span class="post-year">({{ .Date.Format "2006" }})</span></a>
+        {{ with .Params.description }}<div class="post-description">{{ . }}</div>{{ end }}
+      </div>
+    </li>
+    {{ else }}
+    <li>No posts yet</li>
+    {{ end }}
+  </ul>
+</content>
+{{ end }}

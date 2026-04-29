@@ -1,0 +1,5 @@
+{{ if not (and (eq .Type "blog") (not .Params.menu)) }}
+<a href="{{ "" | relURL }}" class="title">
+  <h2>{{ .Site.Title }}</h2>
+</a>
+{{ end }}
