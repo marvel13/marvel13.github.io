@@ -1,7 +1,7 @@
 ---
 title: interfaces arent involving fast enough
 date: 2026-04-30
-description:
+description: A small rant on the pace of human computer interaction development
 tags:
   - thoughts
 draft: false
@@ -21,4 +21,4 @@ If Final Cut Pro had an MCP server:
 Do I care about the buttons to achieve my goal through this software?No.
 Should companies care about investing thousands of dollars in making a new trim button that does the same thing but with 10 more steps now? NOOO.
 
-GIVE ME AN MCP
+GIVE ME AN MCP SERVER.
