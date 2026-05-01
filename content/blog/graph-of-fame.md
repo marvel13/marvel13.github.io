@@ -11,5 +11,4 @@ so the idea is that each node represent a guitarist. Each node connects to the o
 I want to extend this to tone topography but that isnt available though.
 
 I want to create an obsidian like graph.
-
 ![graph of fame](/images/graph-of-fame.png)
