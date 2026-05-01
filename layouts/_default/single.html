@@ -8,6 +8,9 @@
     </time>
   </i>
 </p>
+{{ range (.GetTerms "tags") }}
+<a href="{{ .Permalink }}">#{{ .LinkTitle | lower }}</a>
+{{ end }}
 {{ end }}{{ end }}
 <content>
   {{ .Content }}
@@ -16,10 +19,4 @@
 {{ if eq .Type "blog" }}{{ if (.Param "enablePostNavigator")}}
 {{- partial "post_navigator.html" . -}}
 {{ end }}{{ end }}
-
-<p>
-  {{ range (.GetTerms "tags") }}
-  <a href="{{ .Permalink }}">#{{ .LinkTitle }}</a>
-  {{ end }}
-</p>
 {{ end }}

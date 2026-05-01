@@ -2,7 +2,8 @@
 title: graph of fame
 date: 2026-04-30
 description: a new project Im working on
-tags: []
+tags:
+  - projects
 draft: false
 ---
 
